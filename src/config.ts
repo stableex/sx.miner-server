@@ -59,5 +59,6 @@ export const LOG_NORMAL_FAILS = [
     'proxy::updateall: nothing to update',
     'atomichub.sx::mine: nothing to buy',
     'atomichub.sx::mine: nothing to sell',
-    'already claimed in the last 24h'
+    'already claimed in the last 24h',
+    'mine::updateall: nothing to update'
 ]
