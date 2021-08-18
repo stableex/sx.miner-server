@@ -30,6 +30,7 @@ CPU_ACTOR="<ACCOUNT>@<PERMISSION>"
 CONCURRENCY=5
 TIMEOUT_MS=10
 VERBOSE=false
+HEADERS='{"Referer": "https://github.com/stableex/sx.server"}'
 
 # Up to 32 API endpoints separated by comma
 NODEOS_ENDPOINTS="https://eos.greymass.com,https://api.eosflare.io,https://api.main.alohaeos.com,https://api.eossweden.org"

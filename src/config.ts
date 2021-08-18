@@ -1,6 +1,6 @@
 import { Api, JsonRpc } from 'eosjs';
 import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
-const fetch = require('node-fetch');
+import { Headers } from 'node-fetch';
 const { TextEncoder, TextDecoder } = require('util');
 require("dotenv").config();
 
@@ -8,6 +8,12 @@ require("dotenv").config();
 if (!process.env.ACTOR) throw new Error("process.env.ACTOR is required");
 if (!process.env.PRIVATE_KEYS) throw new Error("process.env.PRIVATE_KEYS is required");
 export const ACTOR = process.env.ACTOR;
+export const HEADERS = process.env.HEADERS;
+
+function fetch(url, params = {} ) {
+    if ( !HEADERS ) return require('node-fetch')( url, params );
+    return require('node-fetch')(url, Object.assign(params, { headers: new Headers(JSON.parse(HEADERS)) }));
+}
 
 // OPTIONAL configurations
 export const NODEOS_ENDPOINTS = process.env.NODEOS_ENDPOINTS || "http://localhost:8888"
