@@ -1,7 +1,28 @@
 import { apis, TIMEOUT_MS, ACTOR, ACCOUNT, CONCURRENCY, AUTHORIZATION, CPU_ACTOR } from "./src/config"
 import { timeout, transact } from "./src/utils"
 import { Action } from "eosjs/dist/eosjs-serialize";
+import { createHash } from 'crypto';
 import PQueue from 'p-queue';
+
+function randomDigest() {
+    return createHash('sha256').update(String(randomNumber())).digest('hex');
+}
+
+function randomNumber() {
+    return Math.floor(Math.random() * 10000);
+}
+
+function mine2( ): Action {
+    return {
+        account: ACCOUNT,
+        name: "mine2",
+        authorization: AUTHORIZATION,
+        data: {
+            executor: ACTOR,
+            digest: randomDigest(),
+        }
+    };
+};
 
 function mine( ): Action {
     return {
@@ -10,13 +31,13 @@ function mine( ): Action {
         authorization: AUTHORIZATION,
         data: {
             executor: ACTOR,
-            nonce: Math.floor(Math.random() * 10000)
+            nonce: randomNumber(),
         }
     };
 };
 
 async function task(queue: PQueue<any, any>, worker: number ) {
-    await transact(apis[worker], [ mine() ], worker);
+    await transact(apis[worker], [ mine2() ], worker);
     await timeout(TIMEOUT_MS);
     queue.add(() => task(queue, worker));
 }
